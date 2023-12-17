@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<coverage version="1.0" date="2023-03-26_23-19-23" tag="">
+  <assembly name="JTMaher.Modules.JTMVueJSTest">
+    <class name="JTMaher.Modules.JTMVueJSTest.Common.Extensions.IQueryableExtensions" coveredlines="6" coverablelines="6" totallines="33" coveredbranches="2" totalbranches="2" coveredcodeelements="1" totalcodeelements="1" />
+    <class name="JTMaher.Modules.JTMVueJSTest.Controllers.ItemController" coveredlines="23" coverablelines="23" totallines="115" coveredbranches="0" totalbranches="0" coveredcodeelements="6" totalcodeelements="6" />
+    <class name="JTMaher.Modules.JTMVueJSTest.Controllers.LocalizationController" coveredlines="0" coverablelines="7" totallines="43" coveredbranches="0" totalbranches="0" coveredcodeelements="0" totalcodeelements="2" />
+    <class name="JTMaher.Modules.JTMVueJSTest.Controllers.ModuleApiController" coveredlines="7" coverablelines="8" totallines="48" coveredbranches="0" totalbranches="0" coveredcodeelements="1" totalcodeelements="2" />
+    <class name="JTMaher.Modules.JTMVueJSTest.Controllers.ModuleExceptionFilterAttribute" coveredlines="0" coverablelines="45" totallines="81" coveredbranches="0" totalbranches="10" coveredcodeelements="0" totalcodeelements="1" />
+    <class name="JTMaher.Modules.JTMVueJSTest.Controllers.ServiceRouteMapper" coveredlines="3" coverablelines="3" totallines="19" coveredbranches="2" totalbranches="2" coveredcodeelements="1" totalcodeelements="1" />
+    <class name="JTMaher.Modules.JTMVueJSTest.Controllers.ValidateModelAttribute" coveredlines="0" coverablelines="29" totallines="64" coveredbranches="0" totalbranches="10" coveredcodeelements="0" totalcodeelements="2" />
+    <class name="JTMaher.Modules.JTMVueJSTest.Data.Entities.BaseEntity" coveredlines="5" coverablelines="5" totallines="28" coveredbranches="0" totalbranches="0" coveredcodeelements="5" totalcodeelements="5" />
+    <class name="JTMaher.Modules.JTMVueJSTest.Data.Entities.Item" coveredlines="3" coverablelines="3" totallines="33" coveredbranches="0" totalbranches="0" coveredcodeelements="3" totalcodeelements="3" />
+    <class name="JTMaher.Modules.JTMVueJSTest.Data.Repositories.PagedList`1" coveredlines="17" coverablelines="18" totallines="61" coveredbranches="0" totalbranches="0" coveredcodeelements="5" totalcodeelements="6" />
+    <class name="JTMaher.Modules.JTMVueJSTest.Data.Repositories.Repository`1" coveredlines="58" coverablelines="71" totallines="138" coveredbranches="9" totalbranches="12" coveredcodeelements="6" totalcodeelements="8" />
+    <class name="JTMaher.Modules.JTMVueJSTest.DTO.CreateItemDTO" coveredlines="3" coverablelines="3" totallines="30" coveredbranches="0" totalbranches="0" coveredcodeelements="3" totalcodeelements="3" />
+    <class name="JTMaher.Modules.JTMVueJSTest.DTO.GetItemsPageDTO" coveredlines="5" coverablelines="5" totallines="35" coveredbranches="0" totalbranches="0" coveredcodeelements="5" totalcodeelements="5" />
+    <class name="JTMaher.Modules.JTMVueJSTest.DTO.UpdateItemDTO" coveredlines="1" coverablelines="1" totallines="19" coveredbranches="0" totalbranches="0" coveredcodeelements="1" totalcodeelements="1" />
+    <class name="JTMaher.Modules.JTMVueJSTest.Migrations.A20230325" coveredlines="0" coverablelines="10" totallines="55" coveredbranches="0" totalbranches="0" coveredcodeelements="0" totalcodeelements="6" />
+    <class name="JTMaher.Modules.JTMVueJSTest.Migrations.Configuration" coveredlines="5" coverablelines="7" totallines="34" coveredbranches="0" totalbranches="0" coveredcodeelements="1" totalcodeelements="2" />
+    <class name="JTMaher.Modules.JTMVueJSTest.Migrations.IncreasedLengthOfDescription" coveredlines="0" coverablelines="9" totallines="54" coveredbranches="0" totalbranches="0" coveredcodeelements="0" totalcodeelements="6" />
+    <class name="JTMaher.Modules.JTMVueJSTest.Migrations.InitialCreate" coveredlines="0" coverablelines="22" totallines="67" coveredbranches="0" totalbranches="0" coveredcodeelements="0" totalcodeelements="6" />
+    <class name="JTMaher.Modules.JTMVueJSTest.Migrations.March262023" coveredlines="0" coverablelines="10" totallines="55" coveredbranches="0" totalbranches="0" coveredcodeelements="0" totalcodeelements="6" />
+    <class name="JTMaher.Modules.JTMVueJSTest.Migrations.Migration_20230312" coveredlines="0" coverablelines="10" totallines="55" coveredbranches="0" totalbranches="0" coveredcodeelements="0" totalcodeelements="6" />
+    <class name="JTMaher.Modules.JTMVueJSTest.Services.ItemService" coveredlines="146" coverablelines="191" totallines="291" coveredbranches="28" totalbranches="38" coveredcodeelements="8" totalcodeelements="8" />
+    <class name="JTMaher.Modules.JTMVueJSTest.Services.LoggingService" coveredlines="0" coverablelines="31" totallines="71" coveredbranches="0" totalbranches="2" coveredcodeelements="0" totalcodeelements="7" />
+    <class name="JTMaher.Modules.JTMVueJSTest.ViewModels.ItemsPageViewModel" coveredlines="4" coverablelines="4" totallines="34" coveredbranches="0" totalbranches="0" coveredcodeelements="4" totalcodeelements="4" />
+    <class name="JTMaher.Modules.JTMVueJSTest.ViewModels.ItemViewModel" coveredlines="14" coverablelines="14" totallines="54" coveredbranches="0" totalbranches="0" coveredcodeelements="6" totalcodeelements="6" />
+  </assembly>
+</coverage>
