@@ -1,20 +1,19 @@
 ﻿// MIT License
 // Copyright JTMaher2
 
-using DotNetNuke.Entities.Portals;
-using DotNetNuke.Security;
-using DotNetNuke.Web.Api;
-using JTMaher.Modules.JTMPasswordsStencilJS.DTO;
-using JTMaher.Modules.JTMPasswordsStencilJS.Services;
-using JTMaher.Modules.JTMPasswordsStencilJS.ViewModels;
-using NSwag.Annotations;
-using System;
-using System.Net;
-using System.Threading.Tasks;
-using System.Web.Http;
-
 namespace JTMaher.Modules.JTMPasswordsStencilJS.Controllers
 {
+    using DotNetNuke.Security;
+    using DotNetNuke.Web.Api;
+    using JTMaher.Modules.JTMPasswordsStencilJS.DTO;
+    using JTMaher.Modules.JTMPasswordsStencilJS.Services;
+    using JTMaher.Modules.JTMPasswordsStencilJS.ViewModels;
+    using NSwag.Annotations;
+    using System;
+    using System.Net;
+    using System.Threading.Tasks;
+    using System.Web.Http;
+
     /// <summary>
     /// Provides Web API access for items.
     /// </summary>
@@ -43,6 +42,22 @@ namespace JTMaher.Modules.JTMPasswordsStencilJS.Controllers
         [SwaggerResponse(HttpStatusCode.BadRequest, typeof(string), Description = "Bad Request")]
         [SwaggerResponse(HttpStatusCode.InternalServerError, typeof(Exception), Description = "Error")]
         public async Task<IHttpActionResult> CreateItem(CreateItemDTO item)
+        {
+            var result = await this.itemService.CreateItemAsync(item, this.UserInfo.UserID);
+            return this.Ok(result);
+        }
+
+        /// <summary>
+        /// Creates a new item (coming from mobile app).
+        /// </summary>
+        /// <param name="item">The item to create.</param>
+        /// <returns>Nothing.</returns>
+        [HttpPost]
+        [DnnAuthorize(AuthTypes = "JWT")]
+        [SwaggerResponse(HttpStatusCode.OK, typeof(ItemViewModel), Description = "OK")]
+        [SwaggerResponse(HttpStatusCode.BadRequest, typeof(string), Description = "Bad Request")]
+        [SwaggerResponse(HttpStatusCode.InternalServerError, typeof(Exception), Description = "Error")]
+        public async Task<IHttpActionResult> CreateItemMobileApp(CreateItemDTO item)
         {
             var result = await this.itemService.CreateItemAsync(item, this.UserInfo.UserID);
             return this.Ok(result);
@@ -83,6 +98,21 @@ namespace JTMaher.Modules.JTMPasswordsStencilJS.Controllers
         }
 
         /// <summary>
+        /// Deletes an existing item.
+        /// </summary>
+        /// <param name="itemId">The id of the item to delete.</param>
+        /// <returns>Nothing.</returns>
+        [HttpPost]
+        [DnnAuthorize(AuthTypes = "JWT")]
+        [SwaggerResponse(HttpStatusCode.OK, typeof(void), Description = "OK")]
+        [SwaggerResponse(HttpStatusCode.InternalServerError, typeof(Exception), Description = "Error")]
+        public async Task<IHttpActionResult> DeleteItemMobileApp(int itemId)
+        {
+            await this.itemService.DeleteItemAsync(itemId);
+            return this.Ok();
+        }
+
+        /// <summary>
         /// Checks if a user can edit the current items.
         /// </summary>
         /// <returns>A boolean indicating whether the user can edit the current items.</returns>
@@ -107,6 +137,22 @@ namespace JTMaher.Modules.JTMPasswordsStencilJS.Controllers
         [SwaggerResponse(HttpStatusCode.BadRequest, typeof(ArgumentException), Description = "Malformed request")]
         [SwaggerResponse(HttpStatusCode.InternalServerError, typeof(Exception), Description = "Error")]
         public async Task<IHttpActionResult> UpdateItem(UpdateItemDTO item)
+        {
+            await this.itemService.UpdateItemAsync(item, this.UserInfo.UserID);
+            return this.Ok();
+        }
+
+        /// <summary>
+        /// Updates an existing item.
+        /// </summary>
+        /// <param name="item">The new information about the item, <see cref="UpdateItemDTO"/>.</param>
+        /// <returns>Only a status code and no data.</returns>
+        [HttpPost]
+        [DnnAuthorize(AuthTypes = "JWT")]
+        [SwaggerResponse(HttpStatusCode.OK, null, Description = "OK")]
+        [SwaggerResponse(HttpStatusCode.BadRequest, typeof(ArgumentException), Description = "Malformed request")]
+        [SwaggerResponse(HttpStatusCode.InternalServerError, typeof(Exception), Description = "Error")]
+        public async Task<IHttpActionResult> UpdateItemMobileApp(UpdateItemDTO item)
         {
             await this.itemService.UpdateItemAsync(item, this.UserInfo.UserID);
             return this.Ok();

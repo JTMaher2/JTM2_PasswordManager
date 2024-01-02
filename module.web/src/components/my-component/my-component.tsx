@@ -55,7 +55,7 @@ export class MyComponent {
 
   async OnClick() {
     ($("#dialog") as any).dialog("close"); // close master password prompt
-    state.m_strMasterPassword = $("#password_input").val() as string;
+    sessionStorage.setItem("m_StrMasterPassword", $("#password_input").val() as string);
     state.lastFetchedPage--; // prevent incorrect data from being loaded
     state.items = [];
     state.availableItems = 0;

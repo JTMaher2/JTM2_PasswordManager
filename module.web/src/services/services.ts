@@ -112,6 +112,67 @@ export class ItemClient extends ClientBase {
     }
 
     /**
+     * Creates a new item (coming from mobile app).
+     * @param item (optional) The item to create.
+     * @return OK
+     */
+    createItemMobileApp(item: CreateItemDTO | null | undefined, signal?: AbortSignal | undefined): Promise<ItemViewModel> {
+        let url_ = this.baseUrl + "/Item/CreateItemMobileApp";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(item);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "POST",
+            signal,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processCreateItemMobileApp(_response);
+        });
+    }
+
+    protected processCreateItemMobileApp(response: Response): Promise<ItemViewModel> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = ItemViewModel.fromJS(resultData200);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result400 = resultData400 !== undefined ? resultData400 : <any>null;
+    
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = Exception.fromJS(resultData500);
+            return throwException("Error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<ItemViewModel>(null as any);
+    }
+
+    /**
      * Gets a paged and sorted list of items matching a certain query.
      * @param m_StrMasterPassword (optional) Gets or sets the master password.
      * @param query (optional) Gets or sets the optional search query.
@@ -230,6 +291,55 @@ export class ItemClient extends ClientBase {
     }
 
     /**
+     * Deletes an existing item.
+     * @param itemId The id of the item to delete.
+     * @return OK
+     */
+    deleteItemMobileApp(itemId: number, signal?: AbortSignal | undefined): Promise<void> {
+        let url_ = this.baseUrl + "/Item/DeleteItemMobileApp?";
+        if (itemId === undefined || itemId === null)
+            throw new Error("The parameter 'itemId' must be defined and cannot be null.");
+        else
+            url_ += "itemId=" + encodeURIComponent("" + itemId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "POST",
+            signal,
+            headers: {
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processDeleteItemMobileApp(_response);
+        });
+    }
+
+    protected processDeleteItemMobileApp(response: Response): Promise<void> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            return;
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = Exception.fromJS(resultData500);
+            return throwException("Error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<void>(null as any);
+    }
+
+    /**
      * Checks if a user can edit the current items.
      * @return OK
      */
@@ -306,6 +416,62 @@ export class ItemClient extends ClientBase {
     }
 
     protected processUpdateItem(response: Response): Promise<void> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            return;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ArgumentException.fromJS(resultData400);
+            return throwException("Malformed request", status, _responseText, _headers, result400);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = Exception.fromJS(resultData500);
+            return throwException("Error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<void>(null as any);
+    }
+
+    /**
+     * Updates an existing item.
+     * @param item (optional) The new information about the item, UpdateItemDTO.
+     * @return OK
+     */
+    updateItemMobileApp(item: UpdateItemDTO | null | undefined, signal?: AbortSignal | undefined): Promise<void> {
+        let url_ = this.baseUrl + "/Item/UpdateItemMobileApp";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(item);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "POST",
+            signal,
+            headers: {
+                "Content-Type": "application/json",
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processUpdateItemMobileApp(_response);
+        });
+    }
+
+    protected processUpdateItemMobileApp(response: Response): Promise<void> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {

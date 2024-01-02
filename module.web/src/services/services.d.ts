@@ -20,6 +20,13 @@ export declare class ItemClient extends ClientBase {
     createItem(item: CreateItemDTO | null | undefined, signal?: AbortSignal | undefined): Promise<ItemViewModel>;
     protected processCreateItem(response: Response): Promise<ItemViewModel>;
     /**
+     * Creates a new item (coming from mobile app).
+     * @param item (optional) The item to create.
+     * @return OK
+     */
+    createItemMobileApp(item: CreateItemDTO | null | undefined, signal?: AbortSignal | undefined): Promise<ItemViewModel>;
+    protected processCreateItemMobileApp(response: Response): Promise<ItemViewModel>;
+    /**
      * Gets a paged and sorted list of items matching a certain query.
      * @param m_StrMasterPassword (optional) Gets or sets the master password.
      * @param query (optional) Gets or sets the optional search query.
@@ -38,6 +45,13 @@ export declare class ItemClient extends ClientBase {
     deleteItem(itemId: number, signal?: AbortSignal | undefined): Promise<void>;
     protected processDeleteItem(response: Response): Promise<void>;
     /**
+     * Deletes an existing item.
+     * @param itemId The id of the item to delete.
+     * @return OK
+     */
+    deleteItemMobileApp(itemId: number, signal?: AbortSignal | undefined): Promise<void>;
+    protected processDeleteItemMobileApp(response: Response): Promise<void>;
+    /**
      * Checks if a user can edit the current items.
      * @return OK
      */
@@ -50,6 +64,13 @@ export declare class ItemClient extends ClientBase {
      */
     updateItem(item: UpdateItemDTO | null | undefined, signal?: AbortSignal | undefined): Promise<void>;
     protected processUpdateItem(response: Response): Promise<void>;
+    /**
+     * Updates an existing item.
+     * @param item (optional) The new information about the item, UpdateItemDTO.
+     * @return OK
+     */
+    updateItemMobileApp(item: UpdateItemDTO | null | undefined, signal?: AbortSignal | undefined): Promise<void>;
+    protected processUpdateItemMobileApp(response: Response): Promise<void>;
 }
 export declare class LocalizationClient extends ClientBase {
     private http;

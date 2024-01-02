@@ -90,7 +90,7 @@ export class MyItemsList {
           this.abortController?.abort();
           this.abortController = new AbortController();
           this.itemClient.getItemsPage(
-            state.m_strMasterPassword,
+            sessionStorage.getItem("m_StrMasterPassword"),
             state.searchQuery,
             state.lastFetchedPage + 1,
             this.pageSize,

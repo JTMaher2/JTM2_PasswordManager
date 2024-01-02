@@ -69,7 +69,7 @@ export class MyEdit {
       const createItemDTO = new CreateItemDTO({
         name: this.item.name,
         description: this.item.description,
-        m_StrMasterPassword: state.m_strMasterPassword,
+        m_StrMasterPassword: sessionStorage.getItem("m_StrMasterPassword")
       });
       const testMasterPassword = createItemDTO.m_StrMasterPassword;
 
@@ -94,7 +94,7 @@ export class MyEdit {
         id: this.item.id,
         name: this.item.name,
         description: this.item.description,
-        m_StrMasterPassword: state.m_strMasterPassword,
+        m_StrMasterPassword: sessionStorage.getItem("m_StrMasterPassword"),
       });
 
       const testMasterPassword = updateItemDTO.m_StrMasterPassword;

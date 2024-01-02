@@ -26,6 +26,7 @@ namespace JTMaher.Modules.JTMPasswordsStencilJS.Services
         private static readonly int SALTLEN = 8;
         private static readonly int KEYLEN = 16;
         private IRepository<Item> itemRepository;
+        private LoggingService cLoggingService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ItemService"/> class.
@@ -34,6 +35,7 @@ namespace JTMaher.Modules.JTMPasswordsStencilJS.Services
         public ItemService(IRepository<Item> itemRepository)
         {
             this.itemRepository = itemRepository;
+            this.cLoggingService = new LoggingService();
         }
 
         /// <inheritdoc/>
@@ -238,8 +240,9 @@ namespace JTMaher.Modules.JTMPasswordsStencilJS.Services
                 k2.Reset();
                 strPassword = new UTF8Encoding(false).GetString(decryptionStreamBacking.ToArray());
             }
-            catch (Exception)
+            catch (Exception cEx)
             {
+                this.cLoggingService.LogError(cEx.Message);
                 strPassword = null;
             }
 
