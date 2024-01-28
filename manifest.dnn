@@ -1,6 +1,6 @@
 <dotnetnuke version="5.0" type="Package">
   <packages>
-    <package name="JTMaher_JTM2_PasswordsStencilJS" type="Module" version="01.00.01">
+    <package name="JTMaher_JTM2_PasswordsStencilJS" type="Module" version="00.01.00">
       <friendlyName>JTM2_PasswordsStencilJS</friendlyName>
       <description>JTM2_PasswordsStencilJS</description>
       <iconFile>~/DesktopModules/JTM2_PasswordsStencilJS/resources/images/module-icon.png</iconFile>

@@ -55,7 +55,7 @@ namespace UnitTests.Controllers
             var items = new List<ItemViewModel>();
             for (int i = 0; i < 100; i++)
             {
-                var item = new ItemViewModel() { Id = i, Name = $"Name {i}", Description = "{\"Password\":\"50,133,111,126,174,71,79,249,159,144,157,187,37,197,147,32\",\"Salt\":\"172,57,212,115,94,44,246,25\",\"Initialization Vector\":\"150,34,187,154,147,165,80,192,5,151,172,228,205,24,23,185\"}", M_StrMasterPassword = "UqJ3W8WqT4#q%hQj#" };
+                var item = new ItemViewModel() { Id = i, Name = $"Name {i}", Description = "{\"Password\":\"50,133,111,126,174,71,79,249,159,144,157,187,37,197,147,32\",\"Salt\":\"172,57,212,115,94,44,246,25\",\"Initialization Vector\":\"150,34,187,154,147,165,80,192,5,151,172,228,205,24,23,185\"}", M_StrMasterPassword = "" };
                 items.Add(item);
             }
             var itemsPageViewModel = new ItemsPageViewModel() { Items = items, Page = 1, PageCount = 10, ResultCount = 100 };
