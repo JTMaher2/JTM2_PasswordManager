@@ -17,33 +17,25 @@ export class MyItemDetails {
   private resx: UIInfo;
 
   constructor() {
-    this.setCookie(state.moduleId);
     this.itemClient = new ItemClient({ moduleId: state.moduleId });
     //state.moduleId = this.moduleId;
     this.resx = localizationState.viewModel.uI;
   }
 
-  private setCookie(iModID: number): void {
-    const date = new Date();
-
-    // Set it expire in 7 days
-    date.setTime(date.getTime() + (7 * 24 * 60 * 60 * 1000));
-
-    // Set it
-    document.cookie = "moduleID=" + iModID + "; expires="+date.toUTCString()+"; path=/";
-  }
-
   private deleteItem(): void {
     this.itemClient.deleteItem(this.item.id)
-      .then(async function() {
+      .then(async function () {
+        // why does it need a then() callback, when the update function does not need a then() callback?
         state.lastFetchedPage--; // prevent incorrect data from being loaded
         state.items = [];
         state.availableItems = 0;
-        await state.m_cMyItemsList.loadMore();
+        await state.m_cMyItemsList == null ?
+          null :
+          state.m_cMyItemsList.loadMore();
         const oldCanEdit = state.userCanEdit;
         store.reset();
         state.userCanEdit = oldCanEdit;
-      })
+      });
   }
 
   render() {

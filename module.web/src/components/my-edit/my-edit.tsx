@@ -66,58 +66,26 @@ export class MyEdit {
   private saveItem(): void {
 
     if (this.item.id < 1) {
-      const createItemDTO = new CreateItemDTO({
+      this.itemClient.createItem(new CreateItemDTO({
         name: this.item.name,
         description: this.item.description,
         m_StrMasterPassword: sessionStorage.getItem("m_StrMasterPassword")
-      });
-      const testMasterPassword = createItemDTO.m_StrMasterPassword;
-
-      this.itemClient.createItem(createItemDTO)
-        .then(() => {
-          this.itemCreated.emit();
-          var cThis = this;
-          setTimeout(async function () {
-            cThis.hideModal();
-            state.m_strMasterPassword = testMasterPassword;
-            state.lastFetchedPage--; // prevent incorrect data from being loaded
-            state.items = [];
-            state.availableItems = 0;
-            await state.m_cMyItemsList.loadMore();
-          }, 1000); // TODO: there's something funky going on behind the scenes that requires me to have this delay. I need to figure out how to get rid of the setTimeout().
+      }))
+        .then(async () => {
+          this.hideModal(); // why does createItem() need a then() callback, while updateItem() does not need one?
         },
           reason => alertError(reason))
         .catch(reason => alertError(reason));
     }
     else {
-      const updateItemDTO = new UpdateItemDTO({
+      this.itemClient.updateItem(new UpdateItemDTO({
         id: this.item.id,
         name: this.item.name,
         description: this.item.description,
         m_StrMasterPassword: sessionStorage.getItem("m_StrMasterPassword"),
-      });
-
-      const testMasterPassword = updateItemDTO.m_StrMasterPassword;
-
-      //alert("Updating item");
-
-      this.itemClient.updateItem(updateItemDTO)
-        .then(() => {
-          //alert("Item updated");
-          var cThis = this;
-          
-          setTimeout(async function () {
-            cThis.hideModal();
-            state.m_strMasterPassword = testMasterPassword;
-            state.lastFetchedPage--; // prevent incorrect data from being loaded
-            state.items = [];
-            state.availableItems = 0;
-            await state.m_cMyItemsList.loadMore();
-          }, 1000); // TODO: there's something funky going on behind the scenes that requires me to have this delay. I need to figure out how to get rid of the setTimeout().
-          
-        }, reason => alert(reason))
-        .catch(reason => alert(reason));
+      })).catch(reason => alert(reason));
     }
+
     const oldCanEdit = state.userCanEdit;
     store.reset();
     state.userCanEdit = oldCanEdit;

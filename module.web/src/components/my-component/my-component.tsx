@@ -59,24 +59,40 @@ export class MyComponent {
     state.lastFetchedPage--; // prevent incorrect data from being loaded
     state.items = [];
     state.availableItems = 0;
-    await state.m_cMyItemsList.loadMore();
+    await state.m_cMyItemsList == null ?
+      null :
+      state.m_cMyItemsList.loadMore();
   }
 
   render() {
-    return <Host>
-      <div class="header">
-        <div id="dialog" title="Enter master password">
-          <input id="password_input" type="password" title="password" />
-          <dnn-button type="primary" reversed onClick={async () => await this.OnClick()}>
-            {"Submit"}
-          </dnn-button>
+    if (sessionStorage.getItem("m_StrMasterPassword") == null) {
+      return <Host>
+        <div class="header">
+          <div id="dialog" title="Enter master password">
+            <input id="password_input" type="password" title="password" />
+            <dnn-button type="primary" reversed onClick={async () => await this.OnClick()}>
+              {"Submit"}
+            </dnn-button>
+          </div>
+          <dnn-searchbox placeholder={this.resx.uI.searchPlaceholder || "Search"} onQueryChanged={e => state.searchQuery = e.detail} />
+          {state.userCanEdit &&
+            <my-create />
+          }
         </div>
-        <dnn-searchbox placeholder={this.resx.uI.searchPlaceholder || "Search"} onQueryChanged={e => state.searchQuery = e.detail} />
-        {state.userCanEdit &&
-          <my-create />
-        }
-      </div>
-      <my-items-list />
-    </Host>;
+        <my-items-list />
+      </Host>;
+    }
+    else
+    {
+      return <Host>
+        <div class="header">
+          <dnn-searchbox placeholder={this.resx.uI.searchPlaceholder || "Search"} onQueryChanged={e => state.searchQuery = e.detail} />
+          {state.userCanEdit &&
+            <my-create />
+          }
+        </div>
+        <my-items-list />
+      </Host>;
+    }
   }
 }

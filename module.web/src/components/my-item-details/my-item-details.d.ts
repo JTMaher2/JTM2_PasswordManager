@@ -7,7 +7,6 @@ export declare class MyItemDetails {
     private itemClient;
     private resx;
     constructor();
-    private setCookie;
     private deleteItem;
     render(): any;
 }

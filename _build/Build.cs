@@ -39,6 +39,7 @@ using static Nuke.Common.Tools.Git.GitTasks;
 using static Nuke.Common.Tools.MSBuild.MSBuildTasks;
 using static Nuke.Common.Tools.Npm.NpmTasks;
 using static Nuke.Common.Tools.ReportGenerator.ReportGeneratorTasks;
+using static Nuke.Common.IO.Globbing;
 
 // Not using AutoGenerate here because of https://github.com/nuke-build/nuke/issues/857
 // Not using EnableGitHubContext here because of https://github.com/nuke-build/nuke/issues/858 and/or https://github.com/actions/runner/issues/1647
@@ -188,7 +189,7 @@ class Build : NukeBuild
                 .SetHistoryDirectory(RootDirectory / "UnitTests" / "history")
                 .SetProcessArgumentConfigurator(a => a
                     .Add("-title:UnitTests"))
-                .SetFramework("net5.0"));
+                .SetFramework("net6.0"));
 
             Helpers.CleanCodeCoverageHistoryFiles(RootDirectory / "UnitTests" / "history");
 
@@ -230,7 +231,7 @@ class Build : NukeBuild
                 .AddClassFilters("-*Data.ModuleDbContext")
                 .SetProcessArgumentConfigurator(a => a
                     .Add("-title:IntegrationTests"))
-                .SetFramework("net5.0"));
+                .SetFramework("net6.0"));
 
             Helpers.CleanCodeCoverageHistoryFiles(RootDirectory / "IntegrationTests" / "history");
 
@@ -259,8 +260,8 @@ class Build : NukeBuild
         {
             var moduleAssemblyName = Solution.GetProject("Module").GetProperty("AssemblyName");
             Helpers.GenerateLocalizationFiles(moduleAssemblyName);
-            var assemblyVersion = "0.1.0";
-            var fileVersion = "0.1.0";
+            var assemblyVersion = "1.0.2";
+            var fileVersion = "1.0.2";
             if (GitVersion != null && GitRepository != null && GitRepository.IsOnMainOrMasterBranch())
             {
                 assemblyVersion = GitVersion.AssemblySemVer;
@@ -292,7 +293,7 @@ class Build : NukeBuild
                         version.Value =
                             GitVersion != null
                             ? $"{GitVersion.Major.ToString("00", CultureInfo.InvariantCulture)}.{GitVersion.Minor.ToString("00", CultureInfo.InvariantCulture)}.{GitVersion.Patch.ToString("00", CultureInfo.InvariantCulture)}"
-                            : "00.01.00";
+                            : "01.00.02";
                         Serilog.Log.Information($"Updated package {package.Attributes["name"].Value} to version {version.Value}");
 
                         var components = package.SelectNodes("components/component");
@@ -304,7 +305,7 @@ class Build : NukeBuild
                                 cleanupVersion.Value =
                                     GitVersion != null
                                     ? $"{GitVersion.Major.ToString("00", CultureInfo.InvariantCulture)}.{GitVersion.Minor.ToString("00", CultureInfo.InvariantCulture)}.{GitVersion.Patch.ToString("00", CultureInfo.InvariantCulture)}"
-                                    : "00.01.00";
+                                    : "01.00.02";
                             }
                         }
                     }
@@ -321,7 +322,7 @@ class Build : NukeBuild
         {
             var manifest = GlobFiles(RootDirectory, "*.dnn").FirstOrDefault();
             var assemblyFiles = Helpers.GetAssembliesFromManifest(manifest);
-            var files = GlobFiles(RootDirectory, "bin/Debug/*.dll", "bin/Debug/*.pdb", "bin/Debug/*.xml");
+            var files = GlobFiles(RootDirectory, "bin/x64/Debug/*.dll", "bin/x64/Debug/*.pdb", "bin/x64/Debug/*.xml");
             foreach (var file in files)
             {
                 var fileInfo = new FileInfo(file);
@@ -626,7 +627,7 @@ class Build : NukeBuild
 
             // Symbols
             var moduleAssemblyName = Solution.GetProject("Module").GetProperty("AssemblyName");
-            var symbolFiles = GlobFiles(RootDirectory, $"bin/Release/**/{moduleAssemblyName}.pdb");
+            var symbolFiles = GlobFiles(RootDirectory, $"bin/x64/Release/**/{moduleAssemblyName}.pdb");
             Helpers.AddFilesToZip(stagingDirectory / "symbols.zip", symbolFiles.ToArray());
 
             // Install files
@@ -635,7 +636,7 @@ class Build : NukeBuild
 
             // Libraries
             var manifest = GlobFiles(RootDirectory, "*.dnn").FirstOrDefault();
-            var assemblies = GlobFiles(RootDirectory / "bin" / Configuration, "*.dll");
+            var assemblies = GlobFiles(RootDirectory / "bin" / "x64" / Configuration, "*.dll");
             var manifestAssemblies = Helpers.GetAssembliesFromManifest(manifest);
             assemblies.ForEach(assembly =>
             {
@@ -651,8 +652,8 @@ class Build : NukeBuild
             // Install package
             string fileName = new DirectoryInfo(RootDirectory).Name + "_";
             fileName += GitRepository != null && GitRepository.IsOnMainOrMasterBranch()
-                ? GitVersion != null ? GitVersion.MajorMinorPatch : "0.1.0"
-                : GitVersion != null ? GitVersion.SemVer : "0.1.0";
+                ? GitVersion != null ? GitVersion.MajorMinorPatch : "1.0.2"
+                : GitVersion != null ? GitVersion.SemVer : "1.0.2";
             fileName += "_install.zip";
             ZipFile.CreateFromDirectory(stagingDirectory, ArtifactsDirectory / fileName);
             DeleteDirectory(stagingDirectory);
@@ -698,9 +699,9 @@ class Build : NukeBuild
             var swaggerFile = DocsDirectory / "rest" / "rest.json";
 
             NSwagTasks.NSwagWebApiToOpenApi(c => c
-                .AddAssembly(RootDirectory / "bin" / Configuration / "JTMaher.Modules.JTMPasswordsStencilJS.dll")
+                .AddAssembly(RootDirectory / "bin" / "x64" / Configuration / "JTMaher.Modules.JTMPasswordsStencilJS.dll")
                 .SetInfoTitle("JTMaher2 JTM2_PasswordsStencilJS")
-                .SetInfoVersion(GitVersion != null ? GitVersion.AssemblySemVer : "0.1.0")
+                .SetInfoVersion(GitVersion != null ? GitVersion.AssemblySemVer : "1.0.2")
                 .SetProcessArgumentConfigurator(a => a.Add("/DefaultUrlTemplate:{{controller}}/{{action}}"))
                 .SetOutput(swaggerFile));
 

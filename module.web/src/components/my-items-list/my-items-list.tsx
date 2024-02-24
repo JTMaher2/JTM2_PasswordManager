@@ -43,8 +43,7 @@ export class MyItemsList {
 
   componentDidLoad() {
     //alert("ComponentDidLoad called");
-    requestAnimationFrame(() =>
-    {
+    requestAnimationFrame(() => {
       this.preload();
     })
   }
@@ -59,13 +58,15 @@ export class MyItemsList {
   private async preload() {
     if (this.el.getBoundingClientRect().bottom - window.innerHeight < this.preloadPixels) {
       if (!state.allLoaded) {
-        await this.loadMore()
-          .then(() => {
-            if (!state.allLoaded) {
-              this.preload();
-            }
-          })
-          .catch(() => { });
+        await this == null ?
+          null :
+          this.loadMore()
+            .then(() => {
+              if (!state.allLoaded) {
+                this.preload();
+              }
+            })
+            .catch(() => { });
       }
     }
   }
@@ -77,20 +78,24 @@ export class MyItemsList {
   @Debounce()
   private async handleScroll() {
     if (this.el.getBoundingClientRect().bottom - window.innerHeight < this.preloadPixels) {
-      await this.loadMore();
+      await this == null ?
+        null :
+        this.loadMore();
     }
   }
 
   public async loadMore() {
-    await new Promise(resolve => setTimeout(resolve, 1000)); // workaround to fix update problem
+    //await new Promise(resolve => setTimeout(resolve, 1000)); // workaround to fix update problem
     return new Promise<void>((resolve, reject) => {
       //if (state.items.length == 0 || state.items.length < state.availableItems) {
-        requestAnimationFrame(() => {
-          this.loading = true;
-          this.abortController?.abort();
-          this.abortController = new AbortController();
+      requestAnimationFrame(() => {
+        this.loading = true;
+        this.abortController?.abort();
+        this.abortController = new AbortController();
+        var strMasterPassword = sessionStorage.getItem("m_StrMasterPassword");
+        if (strMasterPassword !== null) {
           this.itemClient.getItemsPage(
-            sessionStorage.getItem("m_StrMasterPassword"),
+            strMasterPassword,
             state.searchQuery,
             state.lastFetchedPage + 1,
             this.pageSize,
@@ -118,8 +123,8 @@ export class MyItemsList {
               alert(rejectReason);
               reject(rejectReason);
             });
-        });
-      //}
+        }
+      });
     });
   }
 
@@ -157,7 +162,9 @@ export class MyItemsList {
           <p>{this.resx.shownItems.replace("{0}", state.items.length.toString()).replace("{1}", state.availableItems.toString())}</p>
           {!this.loading && state.items.length < state.availableItems &&
             <dnn-button type="primary" reversed
-              onClick={async () => await this.loadMore()}
+              onClick={async () => await this == null ?
+                null :
+                this.loadMore()}
             >
               {this.resx.loadMore || "Load More"}
             </dnn-button>
