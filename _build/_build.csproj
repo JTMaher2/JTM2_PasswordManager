@@ -49,4 +49,10 @@
     <None Include="Properties\launchSettings.json" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="GitVersion.yml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
