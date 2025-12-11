@@ -25,10 +25,10 @@
   },
   "devDependencies": {
     "@dnncommunity/dnn-elements": "^0.15.2",
-    "@microsoft/api-documenter": "^7.23.23",
+    "@microsoft/api-documenter": "^7.28.0",
     "@microsoft/api-extractor": "^7.40.1",
     "@stencil/core": "^2.22.3",
-    "@stencil/eslint-plugin": "^0.4.0",
+    "@stencil/eslint-plugin": "^1.1.0",
     "@stencil/sass": "^1.5.2",
     "@stencil/store": "^2.0.13",
     "@types/jquery": "3.5.25",
